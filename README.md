@@ -15,6 +15,7 @@ Visualizing various real-world card shuffles.
 - `(start!)`
 - visit `http://localhost:9399` in the browser
 
-`src/shuffleviz/shuffles.cljs` implements various shuffles
+`src/shuffleviz/shuffles.cljs` implements various shuffles and has various helper functions
 
-`src/shuffleviz/slides.cljs` is what renders the UI
+`src/shuffleviz/slides.cljs` is what renders the UI; add new shuffles to display by editing the `shuffles` list
+
