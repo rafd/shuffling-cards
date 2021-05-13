@@ -6,6 +6,8 @@ Visualizing various real-world card shuffles.
 
 [Notes](https://docs.google.com/document/d/1XstrEP83JLsOATRzZdjgwMXDpTrffgDSLpNFuj-YkcA/edit?usp=sharing)
 
+![Preview Image of Bias Matrixes of Combined Overhand, Ruffle and Milk Shuffle](/docs/preview-image.png)
+
 ## Getting Started
 
 - Have Java & Leiningen
