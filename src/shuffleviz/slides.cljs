@@ -64,7 +64,7 @@
    {:name "Sloppy Riffle Shuffle"
     :image "diagram-riffle.png"
     :f shuffles/sloppy-interleave-shuffle}
-   {:name "Overhand + Riffle + Milk"
+   {:name "Overhand + Milk + Riffle"
     :f [shuffles/overhand-shuffle
         shuffles/sloppy-milk-shuffle
         shuffles/sloppy-interleave-shuffle]}
