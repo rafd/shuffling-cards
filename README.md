@@ -6,7 +6,8 @@ Visualizing various real-world card shuffles.
 
 [Notes](https://docs.google.com/document/d/1XstrEP83JLsOATRzZdjgwMXDpTrffgDSLpNFuj-YkcA/edit?usp=sharing)
 
-![Preview Image of Bias Matrixes of Combined Overhand, Ruffle and Milk Shuffle](/docs/preview-image.png)
+![Preview Image of Bias Matrixes of Identity, Overhand, Milk, Riffle and Fisher-Yates Shuffles](/docs/preview-image-1.png)
+![Preview Image of Bias Matrixes of a Combined Overhand, Milk and Riffle Shuffle](/docs/preview-image-2.png)
 
 ## Getting Started
 
