@@ -211,9 +211,9 @@
                     :background "black"
                     :margin-top "2em"
                     :text-align "center"}}
-      [:img {:src "/riffle.png" :style {:vertical-align "top"} :width "30%"}]
+      [:img {:src "/overhand.png" :style {:vertical-align "top"} :width "30%"}]
       [:img {:src "/milk.png" :style {:vertical-align "top"} :width "40%"}]
-      [:img {:src "/overhand.png" :width "30%"}]]]))
+      [:img {:src "/riffle.png" :style {:vertical-align "top"} :width "30%"}]]]))
 
 (defn slides-view []
   [:div {:style {:padding-top "2em"}}
