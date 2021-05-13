@@ -1,1 +1,20 @@
-card-shuffle-viz
+# Shuffling Cards
+
+Visualizing various real-world card shuffles.
+
+[Slides](https://docs.google.com/presentation/d/1lDe9viL12U0NWVxYQ6KWsbhWnSoLQkkqgllo33r9E1Y/edit?usp=sharing)
+
+[Notes](https://docs.google.com/document/d/1XstrEP83JLsOATRzZdjgwMXDpTrffgDSLpNFuj-YkcA/edit?usp=sharing)
+
+## Getting Started
+
+- Have Java & Leiningen
+- `git clone`
+- `cd shuffling-cards`
+- `lein repl`
+- `(start!)`
+- visit `http://localhost:9399` in the browser
+
+`src/shuffleviz/shuffles.cljs` implements various shuffles
+
+`src/shuffleviz/slides.cljs` is what renders the UI
