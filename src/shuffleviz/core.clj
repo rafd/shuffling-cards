@@ -5,15 +5,19 @@
     [bloom.omni.core :as omni]))
 
 (def config
+  (config/read "config.edn"
+               [:map
+                [:environment [:enum :prod :dev]]
+                [:http-port integer?]]))
+
+(def omni-config
   {:omni/title "Card Shuffling Visualization"
    :omni/cljs {:main "shuffleviz.core"}
-   :omni/http-port (config/read "config.edn"
-                                [:map
-                                 [:environment [:enum :prod :dev]]
-                                 [:http-port integer?]])})
+   :omni/http-port (:http-port config)
+   :omni/environment (:environment config)})
 
 (defn start! []
-  (omni/start! omni/system config))
+  (omni/start! omni/system omni-config))
 
 (defn stop! []
   (omni/stop!))

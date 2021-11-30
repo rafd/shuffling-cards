@@ -15,7 +15,7 @@
 
   :plugins [[io.bloomventures/omni "0.27.6"]]
 
-  :omni-config shuffleviz.core/config
+  :omni-config shuffleviz.core/omni-config
 
   :profiles {:uberjar
              {:aot :all
