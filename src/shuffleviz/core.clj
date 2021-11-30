@@ -14,7 +14,8 @@
   {:omni/title "Card Shuffling Visualization"
    :omni/cljs {:main "shuffleviz.core"}
    :omni/http-port (:http-port config)
-   :omni/environment (:environment config)})
+   :omni/environment (:environment config)
+   :omni/api-routes []})
 
 (defn start! []
   (omni/start! omni/system omni-config))
