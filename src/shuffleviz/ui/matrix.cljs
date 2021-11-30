@@ -23,16 +23,16 @@
                   (when canvas
                     (let [context (.getContext canvas "2d")]
                       (doseq [i unshuffled
-                              j unshuffled]
+                              o unshuffled]
                         (set! (.-fillStyle context)
                               (color-scale
                                 (->interpolate-deviation
-                                  (get-in distributions [i j] 0)
+                                  (get-in distributions [i o] 0)
                                   (count unshuffled)
                                   (count shuffles))))
                         (.fillRect context
-                                   (* cell-size-px j)
                                    (* cell-size-px i)
+                                   (- table-actual-size-px (* cell-size-px (inc o)))
                                    cell-size-px
                                    cell-size-px)))))}])))
 
@@ -87,27 +87,32 @@
                                :width (str cell-size-px "px")
                                :height (str cell-size-px "px")}}])])])]])))
 
+;; input on bottom; output on left
 (defn table [unshuffled shuffles]
-  [:div
-   [:div {:style {:display "flex"
-                  :margin-left "20px"
-                  :padding-bottom "1px"
-                  :justify-content "space-between"}}
-    [:div "0"]
-    [:div "OUT"]
-    [:div (dec (count unshuffled))]]
+  [:div {:style {:margin-left "5px"}}
    [:div {:style {:display "flex"}}
     [:div {:style {:display "flex"
-                   :width "15px"
+                   :width "30px"
                    :padding-right "3px"
                    :text-align "right"
                    :flex-direction "column"
                    :justify-content "space-between"}}
-     [:div "0"]
-     [:div "IN"]
-     [:div (dec (count unshuffled))]]
+     [:div (dec (count unshuffled))]
+     [:div "OUT"]
+     [:div "0"]]
     ;; table-canvas is by far the fastest
-    [table-canvas unshuffled shuffles]]])
+    [table-canvas unshuffled shuffles]]
+   [:div {:style {:display "flex"
+                  :margin-left "32px"
+                  :justify-content "space-between"}}
+    [:div "0"]
+    [:div "IN"]
+    [:div (dec (count unshuffled))]]
+   (when (< 1 (count shuffles))
+     [:div {:style {:text-align "center"
+                    :margin-left "32px"}}
+      (count (frequencies shuffles)) "/" (count shuffles)])])
+
 
 (defn stateful-table-view
   [in repeat-times shuffle-fn animated?]

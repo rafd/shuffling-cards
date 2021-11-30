@@ -9,33 +9,38 @@
 
 (def shuffles
   [#_{:name "naive"
-    :f js-shuffles/naive-shuffle-random-comparator}
-   #_{:name "identity"
+      :f js-shuffles/naive-shuffle-random-comparator}
+   {:name "identity"
     :f identity
     :perfect? true}
-   #_{:name "reverse"
+   {:name "reverse"
     :f reverse
     :perfect? true}
+
+   {:name "perfect cut"
+    :f shuffles/perfect-cut
+    :perfect? true}
+   {:name "middle-biased cut"
+    :f shuffles/middle-bias-rand-cut}
+   {:name "random cut"
+    :f shuffles/pure-rand-cut}
 
    {:name "Overhand Shuffle (aka Hindu Shuffle)"
     :f shuffles/overhand-shuffle
     :image "diagram-overhand.png"}
 
-   #_{:name "Middle Pull Shuffle"
+   {:name "Middle Pull Shuffle"
     :f shuffles/middle-pull-alternating-shuffle
     :image "diagram-pull.png"}
 
-   #_{:name "Fisher-Yates Shuffle (Clojure, Java, etc.)"
-    :f shuffle}
-
    #_{:name "Perfect Pluck"
-    :f shuffles/pick-one-at-a-time-shuffle
-    :repeat-pointless? true}
+      :f shuffles/pick-one-at-a-time-shuffle
+      :repeat-pointless? true}
    #_{:name "Biased Pluck"
-    :f shuffles/biased-pick-one-at-a-time-shuffle
-    :repeat-pointless? true}
+      :f shuffles/biased-pick-one-at-a-time-shuffle
+      :repeat-pointless? true}
 
-   #_{:name "Milk Shuffle"
+   {:name "Milk Shuffle"
     :f shuffles/milk-shuffle
     :perfect? true
     :image "diagram-milk.png"}
@@ -43,34 +48,33 @@
     :image "diagram-milk.png"
     :f shuffles/sloppy-milk-shuffle}
 
-
    #_{:name "Raf's Shuffle"
-    :f shuffles/raf-shuffle
-    :perfect? true}
+      :f shuffles/raf-shuffle
+      :perfect? true}
    #_{:name "Sloppy Raf's Shuffle"
-    :f shuffles/sloppy-raf-shuffle}
+      :f shuffles/sloppy-raf-shuffle}
 
-   {:name "Perfect Riffle Shuffle (aka Dovetail, Faro)"
-    :f shuffles/perfect-interleave-shuffle
-    :perfect? true
-    :image "diagram-riffle.png"}
-   {:name "Near-Perfect Riffle Shuffle"
+   {:name "Riffle Shuffle"
     :f shuffles/interleave-shuffle
     :image "diagram-riffle.png"}
-   #_{:name "Near-Perfect Riffle Shuffle (64 cards)"
+   {:name "Riffle Shuffle (64 cards)"
     :f shuffles/interleave-shuffle
     :image "diagram-riffle.png"
     :card-count 64}
    {:name "Sloppy Riffle Shuffle"
     :image "diagram-riffle.png"
     :f shuffles/sloppy-interleave-shuffle}
+
+   {:name "Perfect Shuffle"
+    :f shuffle}
+
    {:name "Overhand + Milk + Riffle"
     :f [shuffles/overhand-shuffle
         shuffles/sloppy-milk-shuffle
         shuffles/sloppy-interleave-shuffle]}
    #_{:name "Sloppy Riffle Shuffle (24 cards)"
-    :f (comp shuffles/sloppy-interleave-shuffle shuffles/middle-pull-alternating-shuffle)
-    :card-count 24}])
+      :f (comp shuffles/sloppy-interleave-shuffle shuffles/middle-pull-alternating-shuffle)
+      :card-count 24}])
 
 (defn slide-view
   [_]
@@ -167,7 +171,7 @@
                                  (repeatedly repeat-times #(f in-cards))))}
        [matrix/table in-cards @shuffles]])))
 
-(defn understanding-viz-view []
+(defn understanding-viz-1-view []
   (let [in-cards (range 52)]
     [:div #_{:style {:height "100vh"}}
      [:div {:style {:display "flex"
@@ -176,16 +180,23 @@
        [:h1 {:style {:text-align "center"}} "identity"]
        [stateful-table-view in-cards 1 identity]]
       [:div
-       [:h1 {:style {:text-align "center"}} "overhand"]
-       [stateful-table-view in-cards 1 shuffles/overhand-shuffle]]
+       [:h1 {:style {:text-align "center"}} "reverse"]
+       [stateful-table-view in-cards 1 reverse]]
       [:div
-       [:h1 {:style {:text-align "center"}} "milk"]
-       [stateful-table-view in-cards 1 shuffles/sloppy-milk-shuffle]]
+       [:h1 {:style {:text-align "center"}} "cut"]
+       [stateful-table-view in-cards 1 shuffles/perfect-cut]]
       [:div
-       [:h1 {:style {:text-align "center"}} "riffle"]
-       [stateful-table-view in-cards 1 shuffles/sloppy-interleave-shuffle]]
+       [:h1 {:style {:text-align "center"}} "biased cut"]
+       [stateful-table-view in-cards 1 shuffles/middle-bias-rand-cut]]
       [:div
-       [:h1 {:style {:text-align "center"}} "fisher-yates"]
+       [:h1 {:style {:text-align "center"}} "random cut"]
+       [stateful-table-view in-cards 1 shuffles/pure-rand-cut]]
+      [:div
+       [:h1 {:style {:text-align "center"
+                     :position "relative"}} "random"
+        [:div {:style {:font-size "0.5em"
+                       :position "absolute"
+                       :width "100%"}} "(fisher-yates)"]]
        [stateful-table-view in-cards 1 shuffle]]]
 
      [:div {:style {:display "flex"
@@ -195,20 +206,68 @@
        [stateful-table-view in-cards 1000 identity]]
       [:div
        [:h1 {:style {:text-align "center"}} "x1000"]
+       [stateful-table-view in-cards 1000 reverse]]
+      [:div
+       [:h1 {:style {:text-align "center"}} "x1000"]
+       [stateful-table-view in-cards 1000 shuffles/perfect-cut]]
+      [:div
+       [:h1 {:style {:text-align "center"}} "x1000"]
+       [stateful-table-view in-cards 1000 shuffles/middle-bias-rand-cut]]
+      [:div
+       [:h1 {:style {:text-align "center"}} "x1000"]
+       [stateful-table-view in-cards 1000 shuffles/pure-rand-cut]]
+      [:div
+       [:h1 {:style {:text-align "center"}} "x1000"]
+       [stateful-table-view in-cards 1000 shuffle]]]]))
+
+(defn understanding-viz-2-view []
+  (let [in-cards (range 52)
+        diagram (fn [src]
+                  [:img {:src src
+                         :height "100px"}])]
+    [:div {:style {:margin-top "100px"}}
+     [:div {:style {:display "flex"
+                    :justify-content "center"}}
+      [:div {:style {:text-align "center"}}
+       [diagram "diagram-overhand.png"]
+       [:h1 {:style {:text-align "}center"}} "overhand"]
+       [stateful-table-view in-cards 1 shuffles/overhand-shuffle]]
+      [:div {:style {:text-align "center"}}
+       [diagram "diagram-milk.png"]
+       [:h1 {:style {:text-align "center"}} "milk"]
+       [stateful-table-view in-cards 1 shuffles/sloppy-milk-shuffle]]
+      [:div {:style {:text-align "center"}}
+       [diagram "diagram-pull.png"]
+       [:h1 {:style {:text-align "center"}} "pull"]
+       [stateful-table-view in-cards 1 shuffles/middle-pull-alternating-shuffle]]
+      [:div {:style {:text-align "center"}}
+       [diagram "diagram-riffle.png"]
+       [:h1 {:style {:text-align "center"}} "perfect riffle"]
+       [stateful-table-view in-cards 1 shuffles/interleave-shuffle]]
+      [:div {:style {:text-align "center"}}
+       [diagram "diagram-riffle.png"]
+       [:h1 {:style {:text-align "center"}} "riffle"]
+       [stateful-table-view in-cards 1 shuffles/sloppy-interleave-shuffle]]]
+
+     [:div {:style {:display "flex"
+                    :justify-content "center"}}
+      [:div
+       [:h1 {:style {:text-align "center"}} "x1000"]
        [stateful-table-view in-cards 1000 shuffles/overhand-shuffle]]
       [:div
        [:h1 {:style {:text-align "center"}} "x1000"]
        [stateful-table-view in-cards 1000 shuffles/sloppy-milk-shuffle]]
       [:div
        [:h1 {:style {:text-align "center"}} "x1000"]
-       [stateful-table-view in-cards 1000 shuffles/sloppy-interleave-shuffle]]
+       [stateful-table-view in-cards 1000 shuffles/middle-pull-alternating-shuffle]]
       [:div
        [:h1 {:style {:text-align "center"}} "x1000"]
-       [stateful-table-view in-cards 1000 shuffle]]]
+       [stateful-table-view in-cards 1000 shuffles/interleave-shuffle]]
+      [:div
+       [:h1 {:style {:text-align "center"}} "x1000"]
+       [stateful-table-view in-cards 1000 shuffles/sloppy-interleave-shuffle]]]
 
-
-     [:div {:style {;:display "flex"
-                    :background "black"
+     #_[:div {:style {:background "black"
                     :margin-top "2em"
                     :text-align "center"}}
       [:img {:src "/overhand.png" :style {:vertical-align "top"} :width "30%"}]
@@ -218,7 +277,8 @@
 (defn slides-view []
   [:div {:style {:padding-top "2em"}}
    [legend-view]
-   [understanding-viz-view]
+   [understanding-viz-1-view]
+   [understanding-viz-2-view]
    (for [s shuffles]
      ^{:key (:name s)}
      [slide-view s])

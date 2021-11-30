@@ -79,6 +79,11 @@
 
 ;; SHUFFLES
 
+(defn perfect-cut [coll]
+  "Cut deck once, exactly in half"
+  (let [n (half (count coll))]
+    (cut n coll)))
+
 (defn pure-rand-cut
   "Cut deck once, location of cut random across entire deck"
   [coll]
