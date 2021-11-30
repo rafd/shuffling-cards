@@ -1,4 +1,5 @@
 (ns shuffleviz.core
+  (:gen-class)
   (:require
     [bloom.omni.core :as omni]))
 
@@ -11,3 +12,6 @@
 
 (defn stop! []
   (omni/stop!))
+
+(defn -main []
+  (start!))
