@@ -9,6 +9,7 @@
    :omni/cljs {:main "shuffleviz.core"}
    :omni/http-port (config/read "config.edn"
                                 [:map
+                                 [:environment [:enum :prod :dev]]
                                  [:http-port integer?]])})
 
 (defn start! []
