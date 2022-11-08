@@ -2,6 +2,8 @@
 
 Visualizing various real-world card shuffles.
 
+[Online Demo](https://shuffling.rafal.dittwald.com/)
+
 [Slides](https://docs.google.com/presentation/d/1lDe9viL12U0NWVxYQ6KWsbhWnSoLQkkqgllo33r9E1Y/edit?usp=sharing)
 
 [Notes](https://docs.google.com/document/d/1XstrEP83JLsOATRzZdjgwMXDpTrffgDSLpNFuj-YkcA/edit?usp=sharing)
